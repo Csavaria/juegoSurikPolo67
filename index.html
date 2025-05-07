@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <h1>Test funcionalidad juego polo 67</h1>
+    <h2>
+      el usuario tendra que capturar el numero 67 para ganar de lo contrario
+      pierde
+    </h2>
+    <style>
+      body {
+        background-color: #121212;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding-top: 50px;
+      }
+      h1 {
+        margin-bottom: 20px;
+      }
+      #numero {
+        font-size: 80px;
+        margin: 20px;
+        color: #00ffcc;
+      }
+      #mensaje {
+        font-size: 24px;
+        margin-top: 20px;
+      }
+      button {
+        padding: 15px 30px;
+        font-size: 20px;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        background-color: #007bff;
+        color: white;
+        margin: 10px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="numero">0</div>
+    <div id="mensaje">Presiona "Iniciar"</div>
+
+    <button onclick="empezarCuentaRegresiva()">Iniciar</button>
+    <button onclick="detenerJuego()">Detener</button>
+
+    <script>
+      let numero = 0;
+      let objetivo = 67;
+      let intervaloNumero = null;
+      let cuentaRegresiva = null;
+
+      function empezarCuentaRegresiva() {
+        limpiarTodo();
+        let segundos = 5;
+        document.getElementById(
+          "mensaje"
+        ).textContent = `Comenzando en ${segundos}...`;
+
+        cuentaRegresiva = setInterval(() => {
+          segundos--;
+          if (segundos > 0) {
+            document.getElementById(
+              "mensaje"
+            ).textContent = `Comenzando en ${segundos}...`;
+          } else {
+            clearInterval(cuentaRegresiva);
+            iniciarJuego();
+          }
+        }, 1000);
+      }
+
+      function iniciarJuego() {
+        numero = 0;
+        document.getElementById("mensaje").textContent = "¡Detén el número!";
+        intervaloNumero = setInterval(() => {
+          numero = (numero + 1) % 101;
+          document.getElementById("numero").textContent = numero;
+        }, 30); // velocidad del contador
+      }
+
+      function detenerJuego() {
+        if (intervaloNumero) {
+          clearInterval(intervaloNumero);
+          if (numero === objetivo) {
+            document.getElementById(
+              "mensaje"
+            ).textContent = `¡Ganaste! Número: ${numero}`;
+          } else {
+            document.getElementById(
+              "mensaje"
+            ).textContent = `Perdiste. Número: ${numero}`;
+          }
+        }
+      }
+
+      function limpiarTodo() {
+        clearInterval(intervaloNumero);
+        clearInterval(cuentaRegresiva);
+        document.getElementById("numero").textContent = "0";
+      }
+    </script>
+    <footer>Version 2</footer>
+  </body>
+</html>
